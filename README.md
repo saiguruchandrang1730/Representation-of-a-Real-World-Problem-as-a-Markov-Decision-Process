@@ -254,21 +254,160 @@ Use Python dictionaries to represent the MDP.
 
 ```python
 # MDP Representation using Python
-# print("Name:       ")
-# print("Register Number:     ")
+# print("Name:saiguruchandran g")
+# print("Register Number:212223240143")
+
+## Python Representation
+
+# Define the states
+states = ["Low", "Medium", "High", "Overflow"]
+
+# Define the actions
+actions = ["Collect", "Wait"]
+
+# Define transition probabilities
+# P[current_state][action][next_state]
+
+P = {
+    "Low": {
+        "Collect": {
+            "Low": 0.90, "Medium": 0.10,
+            "High": 0.00, "Overflow": 0.00
+        },
+        "Wait": {
+            "Low": 0.60, "Medium": 0.40,
+            "High": 0.00, "Overflow": 0.00
+        }
+    },
+
+    "Medium": {
+        "Collect": {
+            "Low": 0.80, "Medium": 0.20,
+            "High": 0.00, "Overflow": 0.00
+        },
+        "Wait": {
+            "Low": 0.00, "Medium": 0.50,
+            "High": 0.50, "Overflow": 0.00
+        }
+    },
+
+    "High": {
+        "Collect": {
+            "Low": 0.90, "Medium": 0.10,
+            "High": 0.00, "Overflow": 0.00
+        },
+        "Wait": {
+            "Low": 0.00, "Medium": 0.00,
+            "High": 0.40, "Overflow": 0.60
+        }
+    },
+
+    "Overflow": {
+        "Collect": {
+            "Low": 0.95, "Medium": 0.05,
+            "High": 0.00, "Overflow": 0.00
+        },
+        "Wait": {
+            "Low": 0.00, "Medium": 0.00,
+            "High": 0.00, "Overflow": 1.00
+        }
+    }
+}
+
+# Define the reward function
+# R[state][action]
+
+R = {
+    "Low": {
+        "Collect": -4,
+        "Wait": 2
+    },
+    "Medium": {
+        "Collect": -1,
+        "Wait": 1
+    },
+    "High": {
+        "Collect": 6,
+        "Wait": -4
+    },
+    "Overflow": {
+        "Collect": 8,
+        "Wait": -10
+    }
+}
+
+# Discount factor
+gamma = 0.9
+
+# Display the MDP
+print("States:", states)
+print("Actions:", actions)
+print("Discount Factor:", gamma)
+
+print("\nTransition Probabilities:")
+for state in states:
+    for action in actions:
+        print(state, "->", action, ":", P[state][action])
+
+print("\nReward Function:")
+for state in states:
+    print(state, ":", R[state])
+
+# Verify transition probabilities
+print("\nProbability Validation:")
+for state in states:
+    for action in actions:
+        total = sum(P[state][action].values())
+        print(state, "-", action, ":", total)
+        assert abs(total - 1.0) < 1e-9
+
+print("\nMDP representation created successfully.")
+
 
 ```
 ---
 ## Output
 
-Write your Python output here.
+```text
+States: ['Low', 'Medium', 'High', 'Overflow']
+Actions: ['Collect', 'Wait']
+Discount Factor: 0.9
 
+Transition Probabilities:
+Low -> Collect : {'Low': 0.9, 'Medium': 0.1, 'High': 0.0, 'Overflow': 0.0}
+Low -> Wait : {'Low': 0.6, 'Medium': 0.4, 'High': 0.0, 'Overflow': 0.0}
+Medium -> Collect : {'Low': 0.8, 'Medium': 0.2, 'High': 0.0, 'Overflow': 0.0}
+Medium -> Wait : {'Low': 0.0, 'Medium': 0.5, 'High': 0.5, 'Overflow': 0.0}
+High -> Collect : {'Low': 0.9, 'Medium': 0.1, 'High': 0.0, 'Overflow': 0.0}
+High -> Wait : {'Low': 0.0, 'Medium': 0.0, 'High': 0.4, 'Overflow': 0.6}
+Overflow -> Collect : {'Low': 0.95, 'Medium': 0.05, 'High': 0.0, 'Overflow': 0.0}
+Overflow -> Wait : {'Low': 0.0, 'Medium': 0.0, 'High': 0.0, 'Overflow': 1.0}
+
+Reward Function:
+Low : {'Collect': -4, 'Wait': 2}
+Medium : {'Collect': -1, 'Wait': 1}
+High : {'Collect': 6, 'Wait': -4}
+Overflow : {'Collect': 8, 'Wait': -10}
+
+Probability Validation:
+Low - Collect : 1.0
+Low - Wait : 1.0
+Medium - Collect : 1.0
+Medium - Wait : 1.0
+High - Collect : 1.0
+High - Wait : 1.0
+Overflow - Collect : 1.0
+Overflow - Wait : 1.0
+
+MDP representation created successfully.
+```
 
 ---
 
 ## Result
 
-Write your result here.
+
+Thus, the Smart Waste Collection System was successfully represented as a Markov Decision Process (MDP) using Python dictionaries. The states, actions, transition probabilities, and reward function were defined and validated successfully. This representation provides the foundation for applying the Value Iteration algorithm to determine the optimal waste collection policy, reduce unnecessary collection trips, and prevent garbage overflow.
 
 
 
